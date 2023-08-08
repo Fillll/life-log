@@ -1,4 +1,4 @@
-jupyter
+jupyterlab
 calplot
 matplotlib
 pandas
