@@ -129,3 +129,48 @@ def load_garmin_activities(garmin_path: Path) -> pd.DataFrame:
                     my_data.append(new_row)
 
     return pd.DataFrame(my_data)
+
+
+def load_garmin_stress(garmin_path: Path) -> pd.DataFrame:
+    """Load Garmin stress data from UDSFile JSON files.
+
+    Args:
+        garmin_path: Path to garmin directory containing DI_CONNECT/DI-Connect-Aggregator
+
+    Returns:
+        DataFrame with columns: date, avg_stress_level, max_stress_level
+    """
+    stress_data_dir = garmin_path / 'DI_CONNECT' / 'DI-Connect-Aggregator'
+
+    uds_files = sorted([
+        f for f in os.listdir(stress_data_dir)
+        if os.path.isfile(os.path.join(stress_data_dir, f)) and f.startswith('UDSFile')
+    ])
+
+    my_data = []
+    for each_file in uds_files:
+        with open(os.path.join(stress_data_dir, each_file)) as json_file:
+            data = json.load(json_file)
+            for each_item in data:
+                date_of_measurement = datetime.strptime(
+                    each_item['calendarDate'],
+                    '%Y-%m-%d'
+                ).date()
+
+                # Extract stress data from allDayStress field
+                stress_data = each_item.get('allDayStress')
+                if stress_data and 'aggregatorList' in stress_data:
+                    # Find the TOTAL aggregator
+                    total_stress = next(
+                        (agg for agg in stress_data['aggregatorList'] if agg.get('type') == 'TOTAL'),
+                        None
+                    )
+                    if total_stress:
+                        new_row = {
+                            'date': date_of_measurement,
+                            'avg_stress_level': total_stress.get('averageStressLevel'),
+                            'max_stress_level': total_stress.get('maxStressLevel')
+                        }
+                        my_data.append(new_row)
+
+    return pd.DataFrame(my_data)

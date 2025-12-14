@@ -96,3 +96,23 @@ def create_activities_colormap():
         ['#99ff66'] * 2 +  # 1-2: green (good)
         ['#66cc33'] * 7    # 3-9+: dark green (excellent)
     )
+
+
+def create_stress_colormap():
+    """Create colormap for stress level visualization.
+
+    Color thresholds:
+    - 0-25: dark green (#66cc33) - very low stress (excellent)
+    - 26-40: green (#99ff66) - low stress (good)
+    - 41-60: pink (#f3a0bc) - moderate stress (concerning)
+    - 61+: red (#ff0000) - high stress (bad)
+
+    Returns:
+        ListedColormap: Matplotlib colormap for stress levels
+    """
+    return ListedColormap(
+        ['#66cc33'] * 26 +  # 0-25: dark green (very low)
+        ['#99ff66'] * 15 +  # 26-40: green (low)
+        ['#f3a0bc'] * 20 +  # 41-60: pink (moderate)
+        ['#ff0000'] * 40    # 61-100: red (high)
+    )
