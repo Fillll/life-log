@@ -34,7 +34,7 @@ def main(args):
             end=daily_activities['date'].max(),
             freq='D'
         )
-        all_dates = pd.DataFrame({'date': date_range})
+        all_dates = pd.DataFrame({'date': date_range.date})
         daily_activities = all_dates.merge(daily_activities, on='date', how='left')
         daily_activities['activity_count'] = daily_activities['activity_count'].fillna(0).astype(int)
 
