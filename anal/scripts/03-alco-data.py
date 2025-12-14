@@ -70,8 +70,8 @@ if __name__ == '__main__':
     )
     parser.add_argument(
         '--input',
-        default='../../raw-data/nomie-export/data/2023-12-nomie.csv',
-        help='Input Nomie CSV file (default: ../../raw-data/nomie-export/data/2023-12-nomie.csv)'
+        default='../../data/my_nomie_events.json',
+        help='Input Nomie JSON file (default: ../../data/my_nomie_events.json)'
     )
     parser.add_argument(
         '--output',

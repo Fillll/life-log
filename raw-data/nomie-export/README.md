@@ -15,29 +15,48 @@ Contains historical data from Nomie 3, extracted from iPhone SQL backup.
 ```
 raw-data/nomie-export/
 ├── README.md           # This file
-├── db_to_json.py       # SQLite to JSON converter
+├── db_to_json.py       # SQLite to JSON converter (outputs to ../../data/)
 └── data/
-    ├── n3-events.v1.0.0.db      # SQLite database (not in git)
-    ├── nomie-events.json        # Converted JSON (not in git)
-    ├── nomie.csv                # CSV exports (not in git)
-    ├── 2022-12-nomie.csv
-    └── 2023-12-nomie.csv
+    ├── n3-events.v1.0.0.db      # SQLite database from iPhone backup (not in git)
+    ├── 2022-12-nomie.csv        # Historical CSV exports (not in git)
+    ├── 2023-12-nomie.csv        # (not in git)
+    └── nomie.csv                # (not in git)
 ```
 
-## Converting SQLite to JSON
+**Processed data location:** `../../data/my_nomie_events.json` (created by db_to_json.py)
 
-To convert the Nomie 3 SQLite database to JSON:
+## Processing Data
+
+To convert the Nomie 3 SQLite database to JSON for analysis:
 
 ```bash
 cd raw-data/nomie-export
 python db_to_json.py
 ```
 
-The script reads events from `data/n3-events.v1.0.0.db` and outputs `data/nomie-events.json`.
+This will:
+- Read events from `data/n3-events.v1.0.0.db` (raw data)
+- Convert to JSON format
+- Output to `../../data/my_nomie_events.json` (processed data directory)
+
+The processed JSON file is then ready for analysis by the scripts in `anal/scripts/`.
+
+## Data Workflow
+
+1. **Export from iPhone** → Raw SQLite database in `data/n3-events.v1.0.0.db`
+2. **Process** → Run `python db_to_json.py` → Creates `../../data/my_nomie_events.json`
+3. **Analyze** → Use `anal/scripts/03-alco-data.py` to create visualizations
 
 ## Using the Data
 
-Analyze tracking data with calendar visualizations:
+First, process the raw SQLite database:
+
+```bash
+cd raw-data/nomie-export
+python db_to_json.py
+```
+
+Then analyze with calendar visualizations:
 
 ```bash
 cd anal/scripts
@@ -51,6 +70,8 @@ python 03-alco-data.py --substance 🚬 --output smoking.png
 # Interactive plot
 python 03-alco-data.py --show-plot
 ```
+
+**Note:** The script now uses the processed JSON file from `/data/my_nomie_events.json` by default.
 
 ## Tracked Emojis
 
