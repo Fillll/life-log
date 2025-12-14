@@ -24,8 +24,10 @@ def main(args):
     nomie_df = load_nomie_data(input_path)
 
     if args.substance:
-        print(f"Filtering for substance: {args.substance}")
-        nomie_df = nomie_df[nomie_df['emoji'] == args.substance]
+        # Parse comma-separated substances
+        substances = [s.strip() for s in args.substance.split(',')]
+        print(f"Filtering for substances: {', '.join(substances)}")
+        nomie_df = nomie_df[nomie_df['emoji'].isin(substances)]
     else:
         print("Filtering for alcohol/substance entries")
         nomie_df = filter_alcohol_substances(nomie_df)
@@ -79,7 +81,7 @@ if __name__ == '__main__':
     )
     parser.add_argument(
         '--substance',
-        help='Filter by specific emoji (e.g., 🚬, 🍺, 🍷, 🥂, 🍸, 🥃)'
+        help='Filter by specific emoji or comma-separated list (e.g., 🚬 or 🍺,🍷,🥂,🍸,🥃)'
     )
     parser.add_argument(
         '--show-plot',
