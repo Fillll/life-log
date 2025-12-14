@@ -18,10 +18,10 @@ from utils.colormap_utils import create_activities_colormap
 def categorize_activities(activity_count):
     """Categorize activity count into 3 bins."""
     if activity_count == 0:
-        return 1  # No activity
-    if activity_count == 1:
-        return 2  # Good
-    return 3  # Excellent
+        return 1  # No activity (red)
+    if activity_count <= 2:
+        return 2  # Good (green)
+    return 3  # Excellent (dark green)
 
 
 def main(args):
@@ -89,23 +89,22 @@ def main(args):
         x=grouped_activities_pivot['year'],
         height=grouped_activities_pivot['activity_cat_1'],
         width=width,
-        color='#f5f5f5',
-        label='0 activities',
-        edgecolor='#cccccc'
+        color='#ff0000',
+        label='0 activities'
     )
     ax.bar(
         x=grouped_activities_pivot['year'] + width,
         height=grouped_activities_pivot['activity_cat_2'],
         width=width,
         color='#99ff66',
-        label='1 activity'
+        label='1-2 activities'
     )
     ax.bar(
         x=grouped_activities_pivot['year'] + width * 2,
         height=grouped_activities_pivot['activity_cat_3'],
         width=width,
         color='#66cc33',
-        label='2+ activities'
+        label='3+ activities'
     )
 
     ax.set_title('Exercise activities over years', fontsize=18)
