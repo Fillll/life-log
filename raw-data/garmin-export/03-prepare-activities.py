@@ -26,6 +26,18 @@ def main(args):
     # Count activities per day
     daily_activities = df_activities.groupby('date').size().reset_index(name='activity_count')
 
+    # Fill missing dates with zero
+    if not daily_activities.empty:
+        print("Filling missing dates with zero activities...")
+        date_range = pd.date_range(
+            start=daily_activities['date'].min(),
+            end=daily_activities['date'].max(),
+            freq='D'
+        )
+        all_dates = pd.DataFrame({'date': date_range})
+        daily_activities = all_dates.merge(daily_activities, on='date', how='left')
+        daily_activities['activity_count'] = daily_activities['activity_count'].fillna(0).astype(int)
+
     print(f"Saving activities data to {output_path}")
     output_path.parent.mkdir(parents=True, exist_ok=True)
     daily_activities.to_csv(output_path, sep='\t', index=False)
