@@ -18,10 +18,10 @@ from utils.colormap_utils import create_sleep_colormap
 def categorize_sleep(sleep_hours):
     """Categorize sleep duration into 3 bins."""
     if sleep_hours < 7:
-        return 1  # Too little
-    if sleep_hours < 8:
-        return 2  # Good
-    return 3  # Very good
+        return 1  # Too little (includes toxic red and pink)
+    if sleep_hours <= 8:
+        return 2  # Good (7-8h)
+    return 3  # Very good (dark greens)
 
 
 def main(args):

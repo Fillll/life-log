@@ -62,15 +62,19 @@ def create_sleep_colormap():
     """Create colormap for sleep duration visualization.
 
     Color thresholds:
-    - <7h: pink (#f3a0bc) - too little
+    - 1-3h: toxic red (#ff0000) - dangerous
+    - 4-6h: pink (#f3a0bc) - too little
     - 7-8h: green (#99ff66) - good
-    - >8h: dark green (#66cc33) - very good
+    - 9-11h: dark green (#66cc33) - very good
+    - 12+h: very dark green (#339900) - excellent
 
     Returns:
         ListedColormap: Matplotlib colormap for sleep hours
     """
     return ListedColormap(
-        ['#f3a0bc'] * 7 +  # 0-6h: too little
-        ['#99ff66'] * 1 +  # 7h: good
-        ['#66cc33'] * 7    # 8-14h: very good
+        ['#ff0000'] * 4 +  # 0-3h: toxic red (dangerous)
+        ['#f3a0bc'] * 3 +  # 4-6h: pink (too little)
+        ['#99ff66'] * 2 +  # 7-8h: green (good)
+        ['#66cc33'] * 3 +  # 9-11h: dark green (very good)
+        ['#339900'] * 3    # 12-14h: very dark green (excellent)
     )
