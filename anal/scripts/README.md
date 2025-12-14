@@ -15,8 +15,8 @@ python 01-get-garmin-data.py --garmin-path ../raw-data/garmin/ --output ../data/
 ```
 
 **Arguments:**
-- `--garmin-path` - Path to Garmin data directory (default: `../raw-data/garmin/`)
-- `--output` - Output TSV file path (default: `../data/my_garmin_data.tsv`)
+- `--garmin-path` - Path to Garmin data directory (default: `../../raw-data/garmin/`)
+- `--output` - Output TSV file path (default: `../../data/my_garmin_data.tsv`)
 - `--verbose` - Print summary statistics
 
 ### 02-plot-steps.py
@@ -25,13 +25,13 @@ Visualizes Garmin step data with calendar and bar charts. Requires output from 0
 
 **Usage:**
 ```bash
-python 02-plot-steps.py --input ../data/my_garmin_data.tsv --show-plot
+python 02-plot-steps.py --show-plot
 python 02-plot-steps.py --output-calendar steps_calendar.png --output-bars steps_bars.png
 python 02-plot-steps.py --verbose --show-plot
 ```
 
 **Arguments:**
-- `--input` - Input TSV file from 01-get-garmin-data (default: `../data/my_garmin_data.tsv`)
+- `--input` - Input TSV file from 01-get-garmin-data (default: `../../data/my_garmin_data.tsv`)
 - `--output-calendar` - Output PNG for calendar plot (optional)
 - `--output-bars` - Output PNG for bar chart (optional)
 - `--show-plot` - Display plots instead of saving
@@ -49,7 +49,7 @@ python 03-alco-data.py --verbose
 ```
 
 **Arguments:**
-- `--input` - Input Nomie CSV file (default: `../raw-data/2023-12-nomie.csv`)
+- `--input` - Input Nomie CSV file (default: `../../raw-data/2023-12-nomie.csv`)
 - `--output` - Output PNG for calendar plot (optional)
 - `--substance` - Filter by specific emoji (🚬, 🍺, 🍷, 🥂, 🍸, 🥃)
 - `--show-plot` - Display plot instead of saving
@@ -63,11 +63,11 @@ Analyzes Toggl time tracking data to visualize business hours.
 ```bash
 python 04-business-hours.py --show-plot
 python 04-business-hours.py --output business_hours.png --verbose
-python 04-business-hours.py --toggl-path ../raw-data/toggl/ --output all_years.png
+python 04-business-hours.py --output all_years.png
 ```
 
 **Arguments:**
-- `--toggl-path` - Path to Toggl CSV files (default: `../raw-data/toggl/`)
+- `--toggl-path` - Path to Toggl CSV files (default: `../../raw-data/toggl/`)
 - `--output` - Output PNG file (optional)
 - `--show-plot` - Display plot instead of saving
 - `--verbose` - Print analysis summary

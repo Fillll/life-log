@@ -122,8 +122,8 @@ if __name__ == '__main__':
     )
     parser.add_argument(
         '--input',
-        default='../data/my_garmin_data.tsv',
-        help='Input TSV file from 01-get-garmin-data (default: ../data/my_garmin_data.tsv)'
+        default='../../data/my_garmin_data.tsv',
+        help='Input TSV file from 01-get-garmin-data (default: ../../data/my_garmin_data.tsv)'
     )
     parser.add_argument(
         '--output-calendar',

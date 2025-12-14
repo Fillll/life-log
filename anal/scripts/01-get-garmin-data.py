@@ -48,13 +48,13 @@ if __name__ == '__main__':
     )
     parser.add_argument(
         '--garmin-path',
-        default='../raw-data/garmin/',
-        help='Path to Garmin data directory (default: ../raw-data/garmin/)'
+        default='../../raw-data/garmin/',
+        help='Path to Garmin data directory (default: ../../raw-data/garmin/)'
     )
     parser.add_argument(
         '--output',
-        default='../data/my_garmin_data.tsv',
-        help='Output TSV file path (default: ../data/my_garmin_data.tsv)'
+        default='../../data/my_garmin_data.tsv',
+        help='Output TSV file path (default: ../../data/my_garmin_data.tsv)'
     )
     parser.add_argument(
         '--verbose',
