@@ -27,7 +27,15 @@ def main(args):
     print(f"Loaded {len(df_sleep)} sleep records")
 
     print("Merging datasets...")
-    df = pd.merge(df_steps, df_sleep, on='date', how='left')
+    if df_steps.empty and df_sleep.empty:
+        print("Error: No data found in either steps or sleep data")
+        return
+    elif df_steps.empty:
+        df = df_sleep
+    elif df_sleep.empty:
+        df = df_steps
+    else:
+        df = pd.merge(df_steps, df_sleep, on='date', how='outer')
 
     print(f"Saving combined data to {output_path}")
     output_path.parent.mkdir(parents=True, exist_ok=True)

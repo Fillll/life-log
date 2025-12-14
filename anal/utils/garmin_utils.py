@@ -9,13 +9,13 @@ def load_garmin_steps(garmin_path: Path) -> pd.DataFrame:
     """Load Garmin steps data from UDSFile JSON files.
 
     Args:
-        garmin_path: Path to garmin directory containing DI_CONNECT/DI-Connect-User
+        garmin_path: Path to garmin directory containing DI_CONNECT/DI-Connect-Aggregator
 
     Returns:
         DataFrame with columns: date, steps_cnt, min_hr, min_avg_hr,
                                 max_avg_hr, max_hr, resting_hr
     """
-    steps_data_dir = garmin_path / 'DI_CONNECT' / 'DI-Connect-User'
+    steps_data_dir = garmin_path / 'DI_CONNECT' / 'DI-Connect-Aggregator'
 
     uds_files = sorted([
         f for f in os.listdir(steps_data_dir)
@@ -28,17 +28,17 @@ def load_garmin_steps(garmin_path: Path) -> pd.DataFrame:
             data = json.load(json_file)
             for each_item in data:
                 date_of_measurment = datetime.strptime(
-                    each_item['calendarDate']['date'],
-                    '%b %d, %Y %I:%M:%S %p'
+                    each_item['calendarDate'],
+                    '%Y-%m-%d'
                 ).date()
                 new_row = {
                     'date': date_of_measurment,
-                    'steps_cnt': each_item['totalSteps'],
-                    'min_hr': each_item['minHeartRate'],
-                    'min_avg_hr': each_item['minAvgHeartRate'],
-                    'max_avg_hr': each_item['maxAvgHeartRate'],
-                    'max_hr': each_item['maxHeartRate'],
-                    'resting_hr': each_item['restingHeartRate']
+                    'steps_cnt': each_item.get('totalSteps'),
+                    'min_hr': each_item.get('minHeartRate'),
+                    'min_avg_hr': each_item.get('minAvgHeartRate'),
+                    'max_avg_hr': each_item.get('maxAvgHeartRate'),
+                    'max_hr': each_item.get('maxHeartRate'),
+                    'resting_hr': each_item.get('restingHeartRate')
                 }
                 my_data.append(new_row)
 
