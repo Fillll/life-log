@@ -116,3 +116,43 @@ def create_stress_colormap():
         ['#f3a0bc'] * 20 +  # 41-60: pink (moderate)
         ['#ff0000'] * 40    # 61-100: red (high)
     )
+
+
+def create_resting_hr_colormap():
+    """Create colormap for resting heart rate visualization.
+
+    Color thresholds:
+    - 0-59: dark green (#66cc33) - athletic/excellent
+    - 60-80: green (#99ff66) - normal/good
+    - 81-90: pink (#f3a0bc) - elevated
+    - 91+: red (#ff0000) - high
+
+    Returns:
+        ListedColormap: Matplotlib colormap for resting HR
+    """
+    return ListedColormap(
+        ['#66cc33'] * 60 +  # 0-59: dark green (athletic)
+        ['#99ff66'] * 21 +  # 60-80: green (normal)
+        ['#f3a0bc'] * 10 +  # 81-90: pink (elevated)
+        ['#ff0000'] * 60    # 91-150: red (high)
+    )
+
+
+def create_general_hr_colormap():
+    """Create colormap for general heart rate metrics (min/max HR).
+
+    Color thresholds:
+    - 0-100: dark green (#66cc33) - low/resting range
+    - 101-140: green (#99ff66) - moderate range
+    - 141-170: pink (#f3a0bc) - elevated range
+    - 171+: red (#ff0000) - high range
+
+    Returns:
+        ListedColormap: Matplotlib colormap for general HR
+    """
+    return ListedColormap(
+        ['#66cc33'] * 101 +  # 0-100: dark green
+        ['#99ff66'] * 40 +   # 101-140: green
+        ['#f3a0bc'] * 30 +   # 141-170: pink
+        ['#ff0000'] * 50     # 171-220: red
+    )
