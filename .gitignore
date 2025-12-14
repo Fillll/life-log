@@ -130,3 +130,8 @@ dmypy.json
 
 # Other
 .DS_Store
+
+# Analysis notebooks and scripts
+anal/notebooks/.ipynb_checkpoints/
+anal/scripts/__pycache__/
+anal/utils/__pycache__/
