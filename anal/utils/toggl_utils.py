@@ -36,6 +36,11 @@ def load_toggl_hours(toggl_path: Path) -> pd.DataFrame:
 
     for each_toggl_year_file in toggl_files:
         df = pd.read_csv(each_toggl_year_file, parse_dates=['Start date'])
+
+        # Filter out clients starting with "~"
+        if 'Client' in df.columns:
+            df = df[~df['Client'].astype(str).str.startswith('~')]
+
         df['duration_h'] = df['Duration'].map(parse_duration)
         duration_each_day = pd.DataFrame(
             df.groupby(['Start date'])['duration_h'].sum()
