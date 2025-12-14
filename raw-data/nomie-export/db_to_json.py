@@ -11,9 +11,9 @@ def db_to_json():
     # Get the directory where this script is located
     script_dir = os.path.dirname(os.path.abspath(__file__))
 
-    # Database and output file paths
-    db_path = os.path.join(script_dir, 'n3-events.v1.0.0.db')
-    json_path = os.path.join(script_dir, 'nomie-events.json')
+    # Database and output file paths (in data/ subdirectory)
+    db_path = os.path.join(script_dir, 'data', 'n3-events.v1.0.0.db')
+    json_path = os.path.join(script_dir, 'data', 'nomie-events.json')
 
     try:
         # Connect to the SQLite database

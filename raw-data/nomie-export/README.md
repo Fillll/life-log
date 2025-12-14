@@ -10,6 +10,20 @@ Using [DailyNomie](https://www.dailynomie.com) for personal tracking. Export dat
 
 Contains historical data from Nomie 3, extracted from iPhone SQL backup.
 
+## Directory Structure
+
+```
+raw-data/nomie-export/
+├── README.md           # This file
+├── db_to_json.py       # SQLite to JSON converter
+└── data/
+    ├── n3-events.v1.0.0.db      # SQLite database (not in git)
+    ├── nomie-events.json        # Converted JSON (not in git)
+    ├── nomie.csv                # CSV exports (not in git)
+    ├── 2022-12-nomie.csv
+    └── 2023-12-nomie.csv
+```
+
 ## Converting SQLite to JSON
 
 To convert the Nomie 3 SQLite database to JSON:
@@ -19,7 +33,7 @@ cd raw-data/nomie-export
 python db_to_json.py
 ```
 
-The script reads events from `n3-events.v1.0.0.db` and outputs `nomie-events.json`.
+The script reads events from `data/n3-events.v1.0.0.db` and outputs `data/nomie-events.json`.
 
 ## Using the Data
 

@@ -35,19 +35,22 @@ Alternatively, you can submit a request via:
 After extraction, you should have a structure similar to:
 
 ```
-raw-data/garmin/
-├── DI_CONNECT/
-│   ├── DI-Connect-User/           # Steps and heart rate data
-│   │   ├── UDSFile_2018-08-23_2018-12-01.json
-│   │   ├── UDSFile_2018-12-01_2019-03-11.json
-│   │   └── ...
-│   └── DI-Connect-Wellness/       # Sleep data
-│       ├── 2018-08-23_2018-12-01_71952771_sleepData.json
-│       ├── 2018-12-01_2019-03-11_71952771_sleepData.json
-│       └── ...
-├── DI-Connect-Fitness/             # Workout activities (optional)
-├── DI-Connect-Training/            # Training data (optional)
-└── ...
+raw-data/garmin-export/
+├── README.md                       # This file
+├── 01-prepare-steps.py             # Data preparation script
+└── data/
+    ├── DI_CONNECT/
+    │   ├── DI-Connect-User/        # Steps and heart rate data
+    │   │   ├── UDSFile_2018-08-23_2018-12-01.json
+    │   │   ├── UDSFile_2018-12-01_2019-03-11.json
+    │   │   └── ...
+    │   └── DI-Connect-Wellness/    # Sleep data
+    │       ├── 2018-08-23_2018-12-01_71952771_sleepData.json
+    │       ├── 2018-12-01_2019-03-11_71952771_sleepData.json
+    │       └── ...
+    ├── DI-Connect-Fitness/         # Workout activities (optional)
+    ├── DI-Connect-Training/        # Training data (optional)
+    └── ...
 ```
 
 ### Data Included
@@ -75,11 +78,16 @@ The data is primarily in JSON format with the following key files:
 
 ## Using the Data
 
-Once exported to this directory, run the analysis script:
+Once extracted to the `data/` subdirectory, run the preparation script:
 
 ```bash
-cd anal/scripts
-python 01-get-garmin-data.py --verbose
+cd raw-data/garmin-export
+python 01-prepare-steps.py --verbose
 ```
 
-This will process the JSON files and create a consolidated TSV file at `data/my_garmin_data.tsv`.
+This will:
+- Process all JSON files in the `data/` directory
+- Merge steps, heart rate, and sleep data
+- Create a consolidated TSV file at `../../data/my_garmin_data.tsv`
+
+You can then use the analysis scripts in `anal/scripts/` to visualize the data.

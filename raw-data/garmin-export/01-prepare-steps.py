@@ -7,8 +7,8 @@ import sys
 
 import pandas as pd
 
-# Add parent directory to path to import utils
-sys.path.insert(0, str(Path(__file__).parent.parent))
+# Add anal/utils directory to path to import utils
+sys.path.insert(0, str(Path(__file__).parent.parent.parent / 'anal'))
 
 from utils.garmin_utils import load_garmin_steps, load_garmin_sleep
 
@@ -48,8 +48,8 @@ if __name__ == '__main__':
     )
     parser.add_argument(
         '--garmin-path',
-        default='../../raw-data/garmin/',
-        help='Path to Garmin data directory (default: ../../raw-data/garmin/)'
+        default='./data/',
+        help='Path to Garmin data directory (default: ./data/)'
     )
     parser.add_argument(
         '--output',

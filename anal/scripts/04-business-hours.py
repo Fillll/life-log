@@ -62,8 +62,8 @@ if __name__ == '__main__':
     )
     parser.add_argument(
         '--toggl-path',
-        default='../../raw-data/toggl/',
-        help='Path to Toggl CSV files (default: ../../raw-data/toggl/)'
+        default='../../raw-data/toggl-export/data/',
+        help='Path to Toggl CSV files (default: ../../raw-data/toggl-export/data/)'
     )
     parser.add_argument(
         '--output',

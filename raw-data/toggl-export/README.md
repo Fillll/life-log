@@ -44,12 +44,14 @@ curl -u $API_TOKEN:api_token \
 ## Expected File Structure
 
 ```
-raw-data/toggl/
-├── Toggl_time_entries_2014-01-01_to_2014-12-31.csv
-├── Toggl_time_entries_2015-01-01_to_2015-12-31.csv
-├── Toggl_time_entries_2016-01-01_to_2016-12-31.csv
-├── ...
-└── Toggl_time_entries_2023-01-01_to_2023-12-31.csv
+raw-data/toggl-export/
+├── README.md                       # This file
+└── data/
+    ├── Toggl_time_entries_2014-01-01_to_2014-12-31.csv
+    ├── Toggl_time_entries_2015-01-01_to_2015-12-31.csv
+    ├── Toggl_time_entries_2016-01-01_to_2016-12-31.csv
+    ├── ...
+    └── Toggl_time_entries_2023-01-01_to_2023-12-31.csv
 ```
 
 The analysis scripts expect files to:
@@ -78,7 +80,7 @@ Toggl exports contain the following columns:
 
 ## Using the Data
 
-Once you have your Toggl CSV files in this directory:
+Once you have your Toggl CSV files in the `data/` subdirectory:
 
 ```bash
 cd anal/scripts
@@ -86,7 +88,7 @@ python 04-business-hours.py --verbose
 ```
 
 This will:
-- Load all Toggl CSV files
+- Load all Toggl CSV files from `raw-data/toggl-export/data/`
 - Aggregate hours by day
 - Create a calendar visualization showing work patterns
 - Output: `anal/all_years_calendar.png`
