@@ -85,3 +85,47 @@ def load_garmin_sleep(garmin_path: Path) -> pd.DataFrame:
                 my_data.append(new_row)
 
     return pd.DataFrame(my_data)
+
+
+def load_garmin_activities(garmin_path: Path) -> pd.DataFrame:
+    """Load Garmin activities data from summarizedActivities JSON file.
+
+    Args:
+        garmin_path: Path to garmin directory containing DI_CONNECT/DI-Connect-Fitness
+
+    Returns:
+        DataFrame with columns: date, activity_type, sport_type, duration_m, calories
+    """
+    fitness_data_dir = garmin_path / 'DI_CONNECT' / 'DI-Connect-Fitness'
+
+    activity_files = sorted([
+        f for f in os.listdir(fitness_data_dir)
+        if 'summarizedActivities' in f and f.endswith('.json')
+    ])
+
+    if not activity_files:
+        return pd.DataFrame()
+
+    my_data = []
+    for each_file in activity_files:
+        with open(os.path.join(fitness_data_dir, each_file)) as json_file:
+            data = json.load(json_file)
+            # Extract activities from the nested structure
+            activities = data[0].get('summarizedActivitiesExport', []) if data else []
+
+            for activity in activities:
+                # Parse start time to get date
+                start_timestamp = activity.get('startTimeGmt', activity.get('beginTimestamp'))
+                if start_timestamp:
+                    date_of_activity = datetime.fromtimestamp(start_timestamp / 1000).date()
+
+                    new_row = {
+                        'date': date_of_activity,
+                        'activity_type': activity.get('activityType', 'unknown'),
+                        'sport_type': activity.get('sportType', 'unknown'),
+                        'duration_m': activity.get('duration', 0) / 60000,  # Convert ms to minutes
+                        'calories': activity.get('calories', 0)
+                    }
+                    my_data.append(new_row)
+
+    return pd.DataFrame(my_data)

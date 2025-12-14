@@ -78,3 +78,21 @@ def create_sleep_colormap():
         ['#66cc33'] * 3 +  # 9-11h: dark green (very good)
         ['#339900'] * 3    # 12-14h: very dark green (excellent)
     )
+
+
+def create_activities_colormap():
+    """Create colormap for daily activity count visualization.
+
+    Color thresholds:
+    - 0: gray (#f5f5f5) - no activity
+    - 1: green (#99ff66) - good
+    - 2+: dark green (#66cc33) - excellent
+
+    Returns:
+        ListedColormap: Matplotlib colormap for activity counts
+    """
+    return ListedColormap(
+        ['#f5f5f5'] * 1 +  # 0: gray (no activity)
+        ['#99ff66'] * 1 +  # 1: green (good)
+        ['#66cc33'] * 8    # 2-9+: dark green (excellent)
+    )
