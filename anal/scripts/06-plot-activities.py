@@ -42,9 +42,11 @@ def main(args):
         print(df['activity_count'].describe())
         print("\nActivity categories:")
         print(df['activity_category'].value_counts().sort_index())
+        print(f"\nDays with 0 activities: {(df['activity_count'] == 0).sum()}")
 
     # Create calendar plot
-    activities_series = pd.Series(df['activity_count'].values, index=df['date'])
+    # Ensure we have a complete date range
+    activities_series = pd.Series(df['activity_count'].values, index=pd.to_datetime(df['date']))
     activities_cmap = create_activities_colormap()
 
     print("Creating calendar visualization...")
@@ -55,7 +57,8 @@ def main(args):
         textcolor='#999999',
         cmap=activities_cmap,
         linewidth=0.0005,
-        edgecolor='white'
+        edgecolor='white',
+        vmin=0
     )
 
     if args.output_calendar:
