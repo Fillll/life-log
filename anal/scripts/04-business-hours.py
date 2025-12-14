@@ -20,8 +20,21 @@ def main(args):
     """Main execution function."""
     toggl_path = Path(args.toggl_path)
 
+    # Parse client filters
+    clients_exclude = [c.strip() for c in args.clients_exclude.split(',')] if args.clients_exclude else None
+    clients_include = [c.strip() for c in args.clients_include.split(',')] if args.clients_include else None
+
     print(f"Loading Toggl data from {toggl_path}")
-    all_dates_business_hours = load_toggl_hours(toggl_path)
+    if clients_exclude:
+        print(f"Excluding clients: {', '.join(clients_exclude)}")
+    if clients_include:
+        print(f"Including only clients: {', '.join(clients_include)}")
+
+    all_dates_business_hours = load_toggl_hours(
+        toggl_path,
+        clients_exclude=clients_exclude,
+        clients_include=clients_include
+    )
 
     if args.verbose:
         print(f"Loaded {len(all_dates_business_hours)} days of time tracking")
@@ -78,6 +91,14 @@ if __name__ == '__main__':
         '--verbose',
         action='store_true',
         help='Print analysis summary'
+    )
+    parser.add_argument(
+        '--clients-exclude',
+        help='Comma-separated list of clients to exclude (e.g., "eclipse,personal")'
+    )
+    parser.add_argument(
+        '--clients-include',
+        help='Comma-separated list of clients to include (e.g., "eclipse,acme")'
     )
 
     args = parser.parse_args()

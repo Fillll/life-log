@@ -17,11 +17,13 @@ def parse_duration(duration_string: str) -> float:
     return duration
 
 
-def load_toggl_hours(toggl_path: Path) -> pd.DataFrame:
+def load_toggl_hours(toggl_path: Path, clients_exclude=None, clients_include=None) -> pd.DataFrame:
     """Load Toggl time tracking data and aggregate to daily hours.
 
     Args:
         toggl_path: Path to toggl directory with CSV files
+        clients_exclude: List of client names to exclude (optional)
+        clients_include: List of client names to include only (optional)
 
     Returns:
         DataFrame with columns: date, duration_h
@@ -37,9 +39,18 @@ def load_toggl_hours(toggl_path: Path) -> pd.DataFrame:
     for each_toggl_year_file in toggl_files:
         df = pd.read_csv(each_toggl_year_file, parse_dates=['Start date'])
 
-        # Filter out clients starting with "~"
+        # Filter clients
         if 'Client' in df.columns:
+            # Always filter out clients starting with "~"
             df = df[~df['Client'].astype(str).str.startswith('~')]
+
+            # Apply include filter if specified
+            if clients_include is not None:
+                df = df[df['Client'].isin(clients_include)]
+
+            # Apply exclude filter if specified
+            if clients_exclude is not None:
+                df = df[~df['Client'].isin(clients_exclude)]
 
         df['duration_h'] = df['Duration'].map(parse_duration)
         duration_each_day = pd.DataFrame(
