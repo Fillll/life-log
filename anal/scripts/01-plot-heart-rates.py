@@ -53,6 +53,15 @@ def main(args):
         print(f"Creating calendar visualization for {metric_title}...")
         hr_series = pd.Series(df[metric_col].values, index=pd.to_datetime(df['date']))
 
+        # Set vmax based on metric type
+        if metric_col == 'resting_hr':
+            vmax = 150
+        else:
+            vmax = 220
+
+        if args.verbose:
+            print(f"  Data range: {hr_series.min():.0f} - {hr_series.max():.0f}")
+
         fig = plt.figure(figsize=(16, 10))
         calplot.calplot(
             hr_series,
@@ -61,7 +70,8 @@ def main(args):
             cmap=colormap,
             linewidth=0.0005,
             edgecolor='white',
-            vmin=0
+            vmin=0,
+            vmax=vmax
         )
         plt.suptitle(metric_title, fontsize=20, y=0.98)
 
