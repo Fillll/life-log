@@ -45,15 +45,18 @@ def load_garmin_steps(garmin_path: Path) -> pd.DataFrame:
     return pd.DataFrame(my_data)
 
 
-def load_garmin_sleep(garmin_path: Path) -> pd.DataFrame:
+def load_garmin_sleep(garmin_path: Path, timezone_offset_hours: int = -5) -> pd.DataFrame:
     """Load Garmin sleep data from sleepData JSON files.
 
     Args:
         garmin_path: Path to garmin directory containing DI_CONNECT/DI-Connect-Wellness
+        timezone_offset_hours: Timezone offset from GMT (default: -5 for US Eastern)
 
     Returns:
-        DataFrame with columns: date, sleep_start, sleep_end
+        DataFrame with columns: date, sleep_start, sleep_end (in local time)
     """
+    from datetime import timedelta
+
     sleep_data_dir = garmin_path / 'DI_CONNECT' / 'DI-Connect-Wellness'
 
     sleep_files = sorted([
@@ -69,14 +72,21 @@ def load_garmin_sleep(garmin_path: Path) -> pd.DataFrame:
                     each_item['calendarDate'],
                     '%Y-%m-%d'
                 ).date()
-                start_of_sleep = datetime.strptime(
+
+                # Parse GMT timestamps and convert to local time
+                start_of_sleep_gmt = datetime.strptime(
                     each_item['sleepStartTimestampGMT'],
                     '%Y-%m-%dT%H:%M:%S.0'
                 )
-                end_of_sleep = datetime.strptime(
+                end_of_sleep_gmt = datetime.strptime(
                     each_item['sleepEndTimestampGMT'],
                     '%Y-%m-%dT%H:%M:%S.0'
                 )
+
+                # Apply timezone offset to convert to local time
+                start_of_sleep = start_of_sleep_gmt + timedelta(hours=timezone_offset_hours)
+                end_of_sleep = end_of_sleep_gmt + timedelta(hours=timezone_offset_hours)
+
                 new_row = {
                     'date': date_of_measurment,
                     'sleep_start': start_of_sleep,

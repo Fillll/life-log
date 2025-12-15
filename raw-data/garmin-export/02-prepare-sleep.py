@@ -19,8 +19,8 @@ def main(args):
     output_path = Path(args.output)
 
     print("Loading Garmin sleep data...")
-    df_sleep = load_garmin_sleep(garmin_path)
-    print(f"Loaded {len(df_sleep)} sleep records")
+    df_sleep = load_garmin_sleep(garmin_path, timezone_offset_hours=args.timezone_offset)
+    print(f"Loaded {len(df_sleep)} sleep records (timezone offset: {args.timezone_offset:+d}h)")
 
     print("Calculating sleep duration...")
     df_sleep['sleep_duration_h'] = (
@@ -60,6 +60,12 @@ if __name__ == '__main__':
         '--verbose',
         action='store_true',
         help='Print summary statistics'
+    )
+    parser.add_argument(
+        '--timezone-offset',
+        type=int,
+        default=-5,
+        help='Timezone offset from GMT in hours (default: -5 for US Eastern)'
     )
 
     args = parser.parse_args()
