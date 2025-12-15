@@ -158,3 +158,49 @@ def create_general_hr_colormap():
         ['#f3a0bc'] * 30 +   # 141-170: pink
         ['#ff0000'] * 50     # 171-220: red
     )
+
+
+def create_bedtime_colormap():
+    """Create colormap for bedtime (sleep start) visualization.
+
+    Color thresholds (24-hour format):
+    - 20-21: very dark green (#339900) - very early
+    - 21-22: dark green (#66cc33) - early/good
+    - 22-23: green (#99ff66) - normal/good
+    - 23-24: pink (#f3a0bc) - late
+    - 0-2: red (#ff0000) - very late
+
+    Returns:
+        ListedColormap: Matplotlib colormap for bedtime hours
+    """
+    return ListedColormap(
+        ['#ff0000'] * 3 +    # 0-2: red (very late - after midnight)
+        ['#66cc33'] * 18 +   # 3-20: dark green (placeholder/unlikely)
+        ['#339900'] * 1 +    # 21: very dark green (very early)
+        ['#66cc33'] * 1 +    # 22: dark green (early/good)
+        ['#99ff66'] * 1 +    # 23: green (normal/good)
+        ['#f3a0bc'] * 1      # 24/0: pink (late)
+    )
+
+
+def create_waketime_colormap():
+    """Create colormap for wake time (sleep end) visualization.
+
+    Color thresholds (24-hour format):
+    - 4-6: red (#ff0000) - very early
+    - 6-7: pink (#f3a0bc) - early
+    - 7-8: green (#99ff66) - good
+    - 8-9: dark green (#66cc33) - good
+    - 9+: very dark green (#339900) - late/sleeping in
+
+    Returns:
+        ListedColormap: Matplotlib colormap for wake time hours
+    """
+    return ListedColormap(
+        ['#ff0000'] * 4 +    # 0-3: red (very unusual)
+        ['#ff0000'] * 2 +    # 4-5: red (very early)
+        ['#f3a0bc'] * 1 +    # 6: pink (early)
+        ['#99ff66'] * 1 +    # 7: green (good)
+        ['#66cc33'] * 1 +    # 8: dark green (good)
+        ['#339900'] * 15     # 9-23: very dark green (late/sleeping in)
+    )
