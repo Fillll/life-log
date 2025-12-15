@@ -41,6 +41,11 @@ def main(args):
     else:
         df = pd.merge(df_steps, df_sleep, on='date', how='outer')
 
+    # Convert floors from meters to floor count (1 floor ≈ 3 meters)
+    if 'floors_ascended_m' in df.columns:
+        df['floors_climbed'] = df['floors_ascended_m'] / 3.0
+        print(f"Converted floors from meters to floor count")
+
     print(f"Saving combined data to {output_path}")
     output_path.parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(output_path, sep='\t', index=False)

@@ -25,15 +25,15 @@ def main(args):
     if args.verbose:
         print(f"Data range: {df['date'].min()} to {df['date'].max()}")
         print(f"Total days: {len(df)}")
-        print(f"Days with floors data: {df['floors_ascended_m'].notna().sum()}")
-        print("\nFloors climbed statistics (meters):")
-        print(df['floors_ascended_m'].describe())
-        print(f"\nMax floors climbed: {df['floors_ascended_m'].max():.1f}m")
-        print(f"Mean floors climbed: {df['floors_ascended_m'].mean():.1f}m")
+        print(f"Days with floors data: {df['floors_climbed'].notna().sum()}")
+        print("\nFloors climbed statistics:")
+        print(df['floors_climbed'].describe())
+        print(f"\nMax floors climbed: {df['floors_climbed'].max():.1f} floors")
+        print(f"Mean floors climbed: {df['floors_climbed'].mean():.1f} floors")
 
     # Create calendar visualization
     print("Creating floors climbed calendar visualization...")
-    floors_series = pd.Series(df['floors_ascended_m'].values, index=pd.to_datetime(df['date']))
+    floors_series = pd.Series(df['floors_climbed'].values, index=pd.to_datetime(df['date']))
     floors_cmap = create_floors_colormap()
 
     fig = plt.figure(figsize=(16, 10))
@@ -45,7 +45,7 @@ def main(args):
         linewidth=0.0005,
         edgecolor='white',
         vmin=0,
-        vmax=200
+        vmax=100
     )
 
     if args.output:
