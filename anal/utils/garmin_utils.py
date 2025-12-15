@@ -13,7 +13,7 @@ def load_garmin_steps(garmin_path: Path) -> pd.DataFrame:
 
     Returns:
         DataFrame with columns: date, steps_cnt, min_hr, min_avg_hr,
-                                max_avg_hr, max_hr, resting_hr
+                                max_avg_hr, max_hr, resting_hr, floors_ascended_m
     """
     steps_data_dir = garmin_path / 'DI_CONNECT' / 'DI-Connect-Aggregator'
 
@@ -38,7 +38,8 @@ def load_garmin_steps(garmin_path: Path) -> pd.DataFrame:
                     'min_avg_hr': each_item.get('minAvgHeartRate'),
                     'max_avg_hr': each_item.get('maxAvgHeartRate'),
                     'max_hr': each_item.get('maxHeartRate'),
-                    'resting_hr': each_item.get('restingHeartRate')
+                    'resting_hr': each_item.get('restingHeartRate'),
+                    'floors_ascended_m': each_item.get('floorsAscendedInMeters')
                 }
                 my_data.append(new_row)
 

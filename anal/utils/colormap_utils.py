@@ -204,3 +204,25 @@ def create_waketime_colormap():
         ['#66cc33'] * 1 +    # 8: dark green (good)
         ['#339900'] * 15     # 9-23: very dark green (late/sleeping in)
     )
+
+
+def create_floors_colormap():
+    """Create colormap for floors climbed visualization.
+
+    Color thresholds (in meters):
+    - 0-10m: red (#ff0000) - sedentary (0-3 floors)
+    - 10-30m: pink (#f3a0bc) - low activity (3-10 floors)
+    - 30-50m: green (#99ff66) - good activity (10-16 floors)
+    - 50-100m: dark green (#66cc33) - very active (16-33 floors)
+    - 100+m: very dark green (#339900) - extremely active (33+ floors)
+
+    Returns:
+        ListedColormap: Matplotlib colormap for floors climbed
+    """
+    return ListedColormap(
+        ['#ff0000'] * 10 +   # 0-9m: red (sedentary)
+        ['#f3a0bc'] * 20 +   # 10-29m: pink (low)
+        ['#99ff66'] * 20 +   # 30-49m: green (good)
+        ['#66cc33'] * 50 +   # 50-99m: dark green (very active)
+        ['#339900'] * 100    # 100-199m: very dark green (extremely active)
+    )
