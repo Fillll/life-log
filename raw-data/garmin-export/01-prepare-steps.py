@@ -23,8 +23,12 @@ def main(args):
     print(f"Loaded {len(df_steps)} step records")
 
     print("Loading Garmin sleep data...")
-    df_sleep = load_garmin_sleep(garmin_path, timezone_offset_hours=args.timezone_offset)
-    print(f"Loaded {len(df_sleep)} sleep records (timezone offset: {args.timezone_offset:+d}h)")
+    tz_offset = None if args.timezone_offset == 'auto' else int(args.timezone_offset)
+    df_sleep = load_garmin_sleep(garmin_path, timezone_offset_hours=tz_offset)
+    if tz_offset is None:
+        print(f"Loaded {len(df_sleep)} sleep records (timezone: auto-detect Moscow/DC)")
+    else:
+        print(f"Loaded {len(df_sleep)} sleep records (timezone offset: {tz_offset:+d}h)")
 
     print("Merging datasets...")
     if df_steps.empty and df_sleep.empty:
@@ -71,9 +75,8 @@ if __name__ == '__main__':
     )
     parser.add_argument(
         '--timezone-offset',
-        type=int,
-        default=-5,
-        help='Timezone offset from GMT in hours (default: -5 for US Eastern)'
+        default='auto',
+        help='Timezone offset from GMT in hours, or "auto" to detect Moscow/DC transition (default: auto)'
     )
 
     args = parser.parse_args()

@@ -51,17 +51,23 @@ def load_garmin_sleep(garmin_path: Path, timezone_offset_hours: int = -5) -> pd.
     Args:
         garmin_path: Path to garmin directory containing DI_CONNECT/DI-Connect-Wellness
         timezone_offset_hours: Timezone offset from GMT (default: -5 for US Eastern)
+                               Use None to auto-detect based on date (Moscow +3 before 2022-01-05, DC -5 after)
 
     Returns:
         DataFrame with columns: date, sleep_start, sleep_end (in local time)
     """
-    from datetime import timedelta
+    from datetime import timedelta, date as date_type
 
     sleep_data_dir = garmin_path / 'DI_CONNECT' / 'DI-Connect-Wellness'
 
     sleep_files = sorted([
         f for f in os.listdir(sleep_data_dir) if 'sleepData' in f
     ])
+
+    # Timezone transition date (moved from Moscow to DC)
+    TRANSITION_DATE = date_type(2022, 1, 5)
+    MOSCOW_OFFSET = 3  # UTC+3
+    DC_OFFSET = -5     # UTC-5 (US Eastern)
 
     my_data = []
     for each_file in sleep_files:
@@ -83,9 +89,16 @@ def load_garmin_sleep(garmin_path: Path, timezone_offset_hours: int = -5) -> pd.
                     '%Y-%m-%dT%H:%M:%S.0'
                 )
 
+                # Determine timezone offset
+                if timezone_offset_hours is None:
+                    # Auto-detect based on date
+                    offset = MOSCOW_OFFSET if date_of_measurment < TRANSITION_DATE else DC_OFFSET
+                else:
+                    offset = timezone_offset_hours
+
                 # Apply timezone offset to convert to local time
-                start_of_sleep = start_of_sleep_gmt + timedelta(hours=timezone_offset_hours)
-                end_of_sleep = end_of_sleep_gmt + timedelta(hours=timezone_offset_hours)
+                start_of_sleep = start_of_sleep_gmt + timedelta(hours=offset)
+                end_of_sleep = end_of_sleep_gmt + timedelta(hours=offset)
 
                 new_row = {
                     'date': date_of_measurment,
