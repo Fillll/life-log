@@ -135,3 +135,6 @@ dmypy.json
 anal/notebooks/.ipynb_checkpoints/
 anal/scripts/__pycache__/
 anal/utils/__pycache__/
+
+# Generated visualization files
+*.png
